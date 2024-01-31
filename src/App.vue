@@ -1,10 +1,53 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
   <router-view/>
 </template>
+
+<script>
+import {mapActions, mapState} from "vuex"
+export default {
+
+  mounted() {
+    this.$nextTick(async () => {
+      // await this.$router.push({name: "home"});
+    });
+  },
+
+
+  data(){
+    return {
+      login : "",
+      password : "",
+    }
+  },
+  methods: {
+    async auth(event){
+      //event.preventDefault();
+      const item = {
+        login: this.login,
+        password: this.password
+      };
+      await this.getAuthorization(item)
+
+
+    },
+
+    async logout(event){
+      await this.getLogout()
+    },
+    ...mapActions([
+      'getAuthorization',
+        'getLogout',
+    ])
+  },
+
+  computed : {
+    ...mapState({
+
+    })
+  }
+}
+</script>
+
 
 <style lang="scss">
 #app {
@@ -26,5 +69,21 @@ nav {
       color: #42b983;
     }
   }
+}
+
+.modal-sheet .modal-dialog {
+  width: 380px;
+  transition: bottom .75s ease-in-out;
+}
+.modal-sheet .modal-footer {
+  padding-bottom: 2rem;
+}
+
+.modal-alert .modal-dialog {
+  width: 380px;
+}
+
+.modal-tour .modal-dialog {
+  width: 380px;
 }
 </style>
